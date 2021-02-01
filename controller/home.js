@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const user = require('../models').User
 
 module.exports = {
@@ -11,12 +12,15 @@ module.exports = {
         }).then((user) => {
             user_prompt = user;
             if (password === user_prompt.password) {
-                let data = { 'accessToken' : password }
+                let data = { 'accessToken' : jwt.sign({name: name} , 'test', { expiresIn: 60*60 }) }
+                console.log(data);
                 res.status(200).send(data)
             } else {
+                console.log('test')
                 res.status(403).send("Password or Username is not right")
             }
         }).catch((error) => {
+            console.log(error)
             res.status(403).send("Password or Username is not right")
         });
     },

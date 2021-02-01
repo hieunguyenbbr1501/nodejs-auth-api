@@ -31,7 +31,7 @@ var corsOptionsDelegate = function (req, callback) {
   callback(null, corsOptions) // callback expects two parameters: error and options
 }
 
-app.use('/', indexRouter);
+app.use('/', cors(corsOptionsDelegate) ,indexRouter);
 app.use('/users', cors(corsOptionsDelegate), usersRouter);
 
 // catch 404 and forward to error handler
@@ -49,5 +49,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;
